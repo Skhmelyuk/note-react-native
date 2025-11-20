@@ -1,35 +1,56 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Tabs } from "expo-router";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: "red",
+        tabBarInactiveTintColor: "green",
+        tabBarStyle: {
+          backgroundColor: "yellow",
+          height: 100,
+          paddingTop: 10,
+          borderTopWidth: 10,
+          borderTopColor: "black",
+        },
+        tabBarLabelStyle: {
+          fontSize: 18,
+          fontWeight: "bold",
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="home" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="notes"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Notes",
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="aperture-sharp" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Setting",
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name="settings" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+export default TabsLayout;

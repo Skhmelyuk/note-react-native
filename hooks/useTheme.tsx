@@ -15,28 +15,28 @@ export interface ColorTheme {
 }
 
 const lightColor: ColorTheme = {
-  bg: "#f8fafc",
+  bg: "#f1f5f9",
   surface: "#ffffff",
-  text: "#1e293b",
+  text: "#0f172a",
   textMuted: "#64748b",
   border: "#e2e8f0",
-  primary: "#3b82f6",
-  success: "#10b981",
-  warning: "#f59e0b",
-  danger: "#ef4444",
+  primary: "#2563eb",
+  success: "#059669",
+  warning: "#d97706",
+  danger: "#dc2626",
   shadow: "#000000",
 };
 
 const darkColor: ColorTheme = {
-  bg: "#0f172a",
+  bg: "#0a0f1e",
   surface: "#1e293b",
-  text: "#f1f5f9",
+  text: "#f8fafc",
   textMuted: "#94a3b8",
   border: "#334155",
-  primary: "#60a5fa",
-  success: "#34d399",
-  warning: "#fbbf24",
-  danger: "#f87171",
+  primary: "#3b82f6",
+  success: "#10b981",
+  warning: "#f59e0b",
+  danger: "#ef4444",
   shadow: "#000000",
 };
 

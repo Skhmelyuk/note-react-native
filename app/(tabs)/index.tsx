@@ -21,7 +21,7 @@ export default function HomeScreen() {
         backgroundColor: colors.bg,
       }}
     >
-      <Text style={styles.title}>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={styles.title}>Мої нотатки</Text>
       <TouchableOpacity style={styles.button} onPress={toggleDarkMode}>
         <Text style={styles.textButton}> Зміна теми </Text>
       </TouchableOpacity>

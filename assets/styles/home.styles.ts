@@ -5,6 +5,9 @@ export const createStyles = (colors: ColorTheme) => {
   return StyleSheet.create({
     title: {
       marginBottom: 16,
+      fontSize: 24,
+      fontWeight: "700",
+      color: colors.text,
     },
     button: {
       paddingBlock: 12,

@@ -1,23 +1,22 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 import { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { createStyles } from "@/assets/styles/notes.styles";
 import { ItemNote } from "@/components/ItemNote";
 import ModalNotes from "@/components/ModalNotes";
+import useTheme from "@/hooks/useTheme";
 import type { Note } from "@/types/notes";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function NotesScreen() {
   const inset = useSafeAreaInsets();
 
-  const [notes, setNotes] = useState<Note[]>([]);
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
 
+  const [notes, setNotes] = useState<Note[]>([]);
   const [textNote, setTextNote] = useState<string>("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -42,27 +41,54 @@ export default function NotesScreen() {
   };
 
   return (
-    <View style={{ ...styles.container, paddingTop: inset.top }}>
-      <Text style={styles.title}>Список наши заміток</Text>
+    <View style={styles.container}>
+      <View style={{ ...styles.header, paddingTop: inset.top + 16 }}>
+        <View style={styles.headerContent}>
+          <Text style={styles.title}>Мої нотатки</Text>
+          <Text style={styles.subtitle}>
+            {notes.length === 0
+              ? "Почніть додавати свої нотатки"
+              : `Всього: ${notes.length} ${
+                  notes.length === 1
+                    ? "нотатка"
+                    : notes.length < 5
+                    ? "нотатки"
+                    : "нотаток"
+                }`}
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.addButtonText}>
+            <Ionicons name="add" size={24} color={colors.warning} />
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       <FlatList
         data={notes}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{
-          backgroundColor: "white",
-        }}
+        contentContainerStyle={
+          notes.length === 0 ? styles.emptyContainer : styles.listContainer
+        }
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ItemNote {...item} toggleNote={toggleNote} deleteNote={deleteNote} />
         )}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyIcon}>📝</Text>
+            <Text style={styles.emptyText}>
+              У вас поки немає нотаток.{"\n"}Натисніть кнопку вгорі, щоб додати
+              першу!
+            </Text>
+          </View>
+        }
       />
 
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.addButtonText}>Добавити замітку</Text>
-      </TouchableOpacity>
       <ModalNotes
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -73,32 +99,3 @@ export default function NotesScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "white",
-  },
-  title: {
-    textAlign: "center",
-    color: "green",
-    marginBottom: 20,
-    fontSize: 25,
-  },
-  addButton: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    left: 20,
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#007bff",
-    alignItems: "center",
-  },
-  addButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});

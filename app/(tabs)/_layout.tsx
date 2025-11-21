@@ -16,7 +16,7 @@ function TabsLayout() {
           backgroundColor: colors.surface,
           height: 100,
           paddingTop: 10,
-          borderTopWidth: 10,
+          borderTopWidth: 2,
           borderTopColor: colors.border,
         },
         tabBarLabelStyle: {
@@ -46,7 +46,7 @@ function TabsLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Setting",
+          title: "Settings",
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="settings" size={size} color={color} />
           ),

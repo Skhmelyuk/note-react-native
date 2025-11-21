@@ -7,29 +7,16 @@ import {
 } from "react-native";
 
 import { useState } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ItemNote } from "@/components/ItemNote";
 import ModalNotes from "@/components/ModalNotes";
 import type { Note } from "@/types/notes";
 
 export default function NotesScreen() {
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: "sdfd",
-      text: "Вивчети перший модуль",
-      completed: false,
-    },
-    {
-      id: "sdf34d",
-      text: "Вивчети другий модуль",
-      completed: false,
-    },
-    {
-      id: "sd22fd",
-      text: "Зробити домашку",
-      completed: false,
-    },
-  ]);
+  const inset = useSafeAreaInsets();
+
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const [textNote, setTextNote] = useState<string>("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -55,7 +42,7 @@ export default function NotesScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, paddingTop: inset.top }}>
       <Text style={styles.title}>Список наши заміток</Text>
 
       <FlatList

@@ -1,11 +1,25 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function SettingScreen() {
   return (
-    <View>
-      <Text>Settings</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Settings</Text>
+    </SafeAreaView>
   );
 }
 
 export default SettingScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 36,
+    color: "green",
+    fontWeight: "bold",
+  },
+});

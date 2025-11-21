@@ -1,8 +1,15 @@
-import { useRouter } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import useTheme from "@/hooks/useTheme";
+import { Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import { createStyles } from "@/assets/styles/home.styles";
 
 export default function HomeScreen() {
-  const router = useRouter();
+  const inset = useSafeAreaInsets();
+
+  const { colors, toggleDarkMode } = useTheme();
+
+  const styles = createStyles(colors);
 
   return (
     <View
@@ -10,30 +17,14 @@ export default function HomeScreen() {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        paddingTop: inset.top,
+        backgroundColor: colors.bg,
       }}
     >
       <Text style={styles.title}>Edit app/index.tsx to edit this screen.</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.push("/notes" as any)}
-      >
-        <Text style={styles.textButton}> Перейти на наші нотатки </Text>
+      <TouchableOpacity style={styles.button} onPress={toggleDarkMode}>
+        <Text style={styles.textButton}> Зміна теми </Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    marginBottom: 16,
-  },
-  button: {
-    paddingBlock: 12,
-    paddingHorizontal: 16,
-    backgroundColor: "blue",
-    borderRadius: 10,
-  },
-  textButton: {
-    color: "white",
-  },
-});

@@ -2,13 +2,14 @@ import useTheme from "@/hooks/useTheme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Text, TouchableOpacity, View } from "react-native";
 import { createStyles } from "./ItemNote.styles";
+import { Id } from "@/convex/_generated/dataModel";
 
 type ItemNoteProps = {
-  id: string;
+  id: Id<"notes">;
   text: string;
   completed: boolean;
-  deleteNote: (id: string) => void;
-  toggleNote: (id: string) => void;
+  deleteNote: (id: Id<"notes">) => void;
+  toggleNote: (id: Id<"notes">) => void;
 };
 
 export const ItemNote = ({

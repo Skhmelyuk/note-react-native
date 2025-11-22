@@ -1,5 +1,8 @@
+import { Id } from "@/convex/_generated/dataModel";
+
 export type Note = {
-  id: string;
+  _id: Id<"notes">;
   text: string;
   completed: boolean;
+  createdAt: number;
 };

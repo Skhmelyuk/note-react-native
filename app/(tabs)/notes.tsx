@@ -7,8 +7,11 @@ import { createStyles } from "@/assets/styles/notes.styles";
 import { ItemNote } from "@/components/ItemNote";
 import ModalNotes from "@/components/ModalNotes";
 import useTheme from "@/hooks/useTheme";
-import type { Note } from "@/types/notes";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { useMutation, useQuery } from "convex/react";
 
 export default function NotesScreen() {
   const inset = useSafeAreaInsets();
@@ -16,28 +19,26 @@ export default function NotesScreen() {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
-  const [notes, setNotes] = useState<Note[]>([]);
+  const notes = useQuery(api.notes.getNotes) ?? [];
+  const addNoteMutation = useMutation(api.notes.addNote);
+  const removeNoteMutation = useMutation(api.notes.removeNote);
+  const toggleNoteMutation = useMutation(api.notes.toggleNote);
+
   const [textNote, setTextNote] = useState<string>("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const addNote = () => {
     if (!textNote) return;
-    setNotes((prevNotes) => [
-      ...prevNotes,
-      { id: Date.now().toString(), text: textNote, completed: false },
-    ]);
+    addNoteMutation({ text: textNote });
     setTextNote("");
   };
 
-  const deleteNote = (id: string): void => {
-    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+  const deleteNote = (id: Id<"notes">): void => {
+    removeNoteMutation({ id });
   };
 
-  const toggleNote = (id: string): void => {
-    const newNotes = notes.map((note) =>
-      note.id === id ? { ...note, completed: !note.completed } : note
-    );
-    setNotes(newNotes);
+  const toggleNote = (id: Id<"notes">): void => {
+    toggleNoteMutation({ id });
   };
 
   return (
@@ -52,8 +53,8 @@ export default function NotesScreen() {
                   notes.length === 1
                     ? "нотатка"
                     : notes.length < 5
-                    ? "нотатки"
-                    : "нотаток"
+                      ? "нотатки"
+                      : "нотаток"
                 }`}
           </Text>
         </View>
@@ -70,13 +71,19 @@ export default function NotesScreen() {
 
       <FlatList
         data={notes}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         contentContainerStyle={
           notes.length === 0 ? styles.emptyContainer : styles.listContainer
         }
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <ItemNote {...item} toggleNote={toggleNote} deleteNote={deleteNote} />
+          <ItemNote
+            id={item._id}
+            text={item.text}
+            completed={item.completed}
+            toggleNote={toggleNote}
+            deleteNote={deleteNote}
+          />
         )}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
